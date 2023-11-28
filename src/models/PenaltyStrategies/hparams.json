@@ -1,0 +1,191 @@
+{
+    "-exp": {
+        "fullname": "--experiment_name",
+        "default": "experiment_name",
+        "help": "Name of the experiment.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-db": {
+        "fullname": "--database",
+        "default": "CIFAR_10",
+        "help": "Database to hash.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-loss": {
+        "fullname": "--loss",
+        "default": "DSH",
+        "help": "Loss to use for train.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-nbits": {
+        "fullname": "--number_of_bits",
+        "default": 1,
+        "help": "Number of bits on hash.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-trf": {
+        "fullname": "--transformations",
+        "default": "imagenet",
+        "help": "Type of transformations to use.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-arch": {
+        "fullname": "--architecture",
+        "default": "alexnet",
+        "help": "NN Model to be used.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-seed": {
+        "fullname": "--seed",
+        "default": 0,
+        "help": "Random seed.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-bs": {
+        "fullname": "--batch_size",
+        "default": 16,
+        "help": "Dataloader's batch size.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-nw": {
+        "fullname": "--num_workers",
+        "default": 1,
+        "help": "Dataloader's number of workers.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": false
+    },
+
+    "-ep": {
+        "fullname": "--epochs",
+        "default": 10,
+        "help": "Number of epochs to run model.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-pt": {
+        "fullname": "--patience",
+        "default": 10,
+        "help": "Patience to early stopping.",
+        "type": "int",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-lr": {
+        "fullname": "--learning_rate",
+        "default": 1e-5,
+        "help": "Learning rate.",
+        "type": "float",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-wd": {
+        "fullname": "--weight_decay",
+        "default": 0.0005,
+        "help": "Weight decay.",
+        "type": "float",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-optim": {
+        "fullname": "--optimizer",
+        "default": "adam",
+        "help": "Optimizer to use.",
+        "type": "str",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-dfs": {
+        "fullname": "--datafolds",
+        "default": ["train", "val", "query", "database"],
+        "help": "Optimizer to use.",
+        "type": "str",
+        "nargs": "+",
+        "stages": ["predict"],
+        "in_filename": false
+    },
+
+    "-no_skip": {
+        "fullname": "--no_skip",
+        "default": false,
+        "help": "Skip if predictions already exist.",
+        "type": "bool",
+        "stages": ["train","predict"],
+        "in_filename": false
+    },
+
+    "-penalty": {
+        "fullname": "--penalty",
+        "default": 0.01,
+        "help": "Default quantization penalty of benchmark.",
+        "type": "float",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-L2_penalty": {
+        "fullname": "--L2_penalty",
+        "default": 0.0,
+        "help": "Set > 0 to use L2 quantization penalty (for HyP2 and CEL).",
+        "type": "float",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-HSWD_penalty": {
+        "fullname": "--HSWD_penalty",
+        "default": 0.0,
+        "help": "Set > 0 to use HSWD penalty (recommended is 0.1).",
+        "type": "float",
+        "stages": ["train", "predict"],
+        "in_filename": true
+    },
+
+    "-no_cube": {
+        "fullname": "--no_cube",
+        "default": false,
+        "help": "False if it must apply a Tanh to put the embedding into the [-1,1]^nb cube.",
+        "type": "bool",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-soft_skip": {
+        "fullname": "--soft_skip",
+        "default": false,
+        "help": "Skip training is a 'ckpt' file exists.",
+        "type": "bool",
+        "stages": ["train"],
+        "in_filename": false
+    }
+}

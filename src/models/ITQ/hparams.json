@@ -1,0 +1,26 @@
+{
+    "-dir": {
+        "fullname": "--dir",
+        "default": "",
+        "help": "Directory.",
+        "type": "str",
+        "stages": ["train"],
+        "in_filename": true
+    },
+    "-center": {
+        "fullname": "--center",
+        "default": false,
+        "help": "Center features.",
+        "type": "bool",
+        "stages": ["train"],
+        "in_filename": true
+    },
+    "-svd": {
+        "fullname": "--svd",
+        "default": false,
+        "help": "Perform svd.",
+        "type": "bool",
+        "stages": ["train"],
+        "in_filename": true
+    }
+}

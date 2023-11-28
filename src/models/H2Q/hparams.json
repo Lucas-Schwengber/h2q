@@ -1,0 +1,64 @@
+{
+    "-dir": {
+        "fullname": "--directory",
+        "default": "",
+        "help": "Directory with data.",
+        "type": "str",
+        "stages": ["train"],
+        "in_filename": true
+    },
+
+    "-loss": {
+        "fullname": "--loss",
+        "default": "bit_var_loss",
+        "help": "Loss to use for train.",
+        "type": "str",
+        "stages": ["train"],
+        "in_filename": true
+    },
+
+    "-lr": {
+        "fullname": "--learning_rate",
+        "default": 1.0,
+        "help": "Learning rate.",
+        "type": "float",
+        "stages": ["train"],
+        "in_filename": true
+    },
+
+    "-ep": {
+        "fullname": "--epochs",
+        "default": 150,
+        "help": "Epoches to use.",
+        "type": "int",
+        "stages": ["train"],
+        "in_filename": true
+    },
+
+    "-no_skip": {
+        "fullname": "--no_skip",
+        "default": false,
+        "help": "Skip training already exist.",
+        "type": "bool",
+        "stages": ["train"],
+        "in_filename": false
+    },
+
+    "-bs": {
+        "fullname": "--batch_size",
+        "default": 128,
+        "help": "Batch size to train.",
+        "type": "int",
+        "stages": ["train"],
+        "in_filename": true
+    },
+
+    "-soft_skip": {
+        "fullname": "--soft_skip",
+        "default": false,
+        "help": "Skip training is a 'ckpt' file exists.",
+        "type": "bool",
+        "stages": ["train"],
+        "in_filename": false
+    }
+}

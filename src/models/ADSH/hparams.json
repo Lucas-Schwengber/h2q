@@ -1,0 +1,118 @@
+{
+    "-exp": {
+        "fullname": "--experiment_name",
+        "default": "experiment_name",
+        "help": "Name of the experiment.",
+        "type": "str",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-db": {
+        "fullname": "--database",
+        "default": "CIFAR_10",
+        "help": "Database to hash.",
+        "type": "str",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-arch": {
+        "fullname": "--architecture",
+        "default": "alexnet",
+        "help": "model name (default: resnet50).",
+        "type": "str",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-nbits": {
+        "fullname": "--number_of_bits",
+        "default": 12,
+        "help": "Number of bits in hash (default: 12).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-gpu": {
+        "fullname": "--gpu",
+        "default": "0",
+        "help": "selected gpu (default: 0).",
+        "type": "str",
+        "stages": ["train","predict"],
+        "in_filename": false
+    },
+
+    "-mi": {
+        "fullname": "--max_iter",
+        "default": 50,
+        "help": "maximum iteration (default: 50).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-ep": {
+        "fullname": "--epochs",
+        "default": 3,
+        "help": "number of epochs (default: 3).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-bs": {
+        "fullname": "--batch_size",
+        "default": 128,
+        "help": "batch size (default: 128).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-qss": {
+        "fullname": "--query_samples_size",
+        "default": 1000,
+        "help": "hyper-parameter: number of training samples to use as query on each iteration (default: 1000).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-g": {
+        "fullname": "--gamma",
+        "default": 200,
+        "help": "hyper-parameter: gamma (default: 200).",
+        "type": "float",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-no_skip": {
+        "fullname": "--no_skip",
+        "default": false,
+        "help": "Skip if predictions already exist.",
+        "type": "bool",
+        "stages": ["train","predict"],
+        "in_filename": false
+    },
+
+    "-lr": {
+        "fullname": "--learning_rate",
+        "default": 1e-4,
+        "help": "hyper-parameter: learning rate (default: 10**-3).",
+        "type": "float",
+        "stages": ["train","predict"],
+        "in_filename": true
+    },
+
+    "-seed": {
+        "fullname": "--seed",
+        "default": 0,
+        "help": "Seed for experiment (default: 0).",
+        "type": "int",
+        "stages": ["train","predict"],
+        "in_filename": true
+    }
+}
