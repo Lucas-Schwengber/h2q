@@ -1,4 +1,4 @@
-# Code resources companion for "Deep Hashing via Householder Quantization"
+# Code resources companion for "Deep Hashing via Householder Quantization" (arXiv:2311.04207)
 
 ## Setup
 
