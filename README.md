@@ -14,7 +14,7 @@ source H2Q_env/bin/activate
 pip install -r requirements.txt
 ```
 
-And initialize the environment running:
+To re-initialize the environment if needed run:
 ```shell
 source H2Q_env/bin/activate
 ```
@@ -23,6 +23,7 @@ source H2Q_env/bin/activate
 
 To start, create the following directories:
 ```shell
+mkdir data
 mkdir experiments
 mkdir models
 mkdir eval
