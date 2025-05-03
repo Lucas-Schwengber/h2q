@@ -10,17 +10,17 @@ from torch.utils.data import DataLoader
 import torch
 
 sys.path.insert(1, "src/")
-from models.PenaltyStrategies.lightning_module import LModule  # noqa: E402
+from models.QS.lightning_module import LModule  # noqa: E402
 from utils.general_utils import build_args, get_model_name, stringfy_model_args  # noqa: E402
 from utils.hashing_utils import save_sign_hashes  # noqa: E402
 from utils.datasets import VectorizedDataset  # noqa: E402
 
 torch.multiprocessing.set_sharing_strategy('file_system')
 
-model="PenaltyStrategies"
+model="QS"
 
 # load arguments from the json file
-args = build_args("src/models/PenaltyStrategies/hparams.json", stage="predict")
+args = build_args("src/models/QS/hparams.json", stage="predict")
 
 # Generate model name
 model_name = get_model_name(args,model)
@@ -28,7 +28,7 @@ model_name = get_model_name(args,model)
 # load the model and its parameters
 database = args.database
 experiment_name = args.experiment_name
-model_dir = pathlib.Path("models/PenaltyStrategies") / database / experiment_name / model_name
+model_dir = pathlib.Path("models/QS") / database / experiment_name / model_name
 
 status_file_training = model_dir / "status=training.out"
 status_file_interrupted = model_dir / "status=interrupted.out"
@@ -45,8 +45,8 @@ if not already_finished:
     sys.exit()
 
 # get model output dir
-output_model_dir = stringfy_model_args("src/models/PenaltyStrategies/hparams.json", args, stage="predict", ignore=["-exp", "-db"])
-OUTPUT_DIR = pathlib.Path("models/PenaltyStrategies") / database / experiment_name / output_model_dir
+output_model_dir = stringfy_model_args("src/models/QS/hparams.json", args, stage="predict", ignore=["-exp", "-db"])
+OUTPUT_DIR = pathlib.Path("models/QS") / database / experiment_name / output_model_dir
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 datafolds_to_predict = ["val", "query", "database", "train"]
@@ -95,22 +95,16 @@ else:
     #save hparams
     with (OUTPUT_DIR / "hparams.json").open("w") as f:
         hparams = vars(args)
-        hparams["model"] = "PenaltyStrategies"
+        hparams["model"] = "QS"
         hparams["commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
         f.write(json.dumps(hparams, indent=True))
 
     # initialize trainer for prediction
-    if torch.cuda.device_count() != 0:
-        trainer = pl.Trainer(
-            accelerator="gpu",
-            logger=False,
-            devices=[args.seed % torch.cuda.device_count()]
-        )
-    else:
-        trainer = pl.Trainer(
-            accelerator="cpu",
-            logger=False
-        )
+    trainer = pl.Trainer(
+        accelerator="gpu",
+        logger=False,
+        devices=[args.seed % torch.cuda.device_count()]
+    )
 
     # predict
     for datafold, dataloader in zip(args.datafolds, dataloaders):

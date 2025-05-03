@@ -46,7 +46,7 @@
 
     "-arch": {
         "fullname": "--architecture",
-        "default": "alexnet",
+        "default": "CNNF_alexnet",
         "help": "NN Model to be used.",
         "type": "str",
         "stages": ["train", "predict"],
@@ -156,7 +156,7 @@
     "-L2_penalty": {
         "fullname": "--L2_penalty",
         "default": 0.0,
-        "help": "Set > 0 to use L2 quantization penalty (for HyP2 and CEL).",
+        "help": "Default L2 quantization penalty.",
         "type": "float",
         "stages": ["train", "predict"],
         "in_filename": true
@@ -165,7 +165,7 @@
     "-HSWD_penalty": {
         "fullname": "--HSWD_penalty",
         "default": 0.0,
-        "help": "Set > 0 to use HSWD penalty (recommended is 0.1).",
+        "help": "Use HSWD penalty.",
         "type": "float",
         "stages": ["train", "predict"],
         "in_filename": true

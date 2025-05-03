@@ -13,20 +13,24 @@ import torch
 import json
 
 sys.path.insert(1, "src/")
-from models.PenaltyStrategies.lightning_module import LModule  # noqa: E402
+from models.QS.lightning_module import LModule  # noqa: E402
 from utils.general_utils import build_args, get_model_name  # noqa: E402
 from utils.datasets import VectorizedDataset  # noqa: E402
 
 torch.multiprocessing.set_sharing_strategy('file_system')
 
+#os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
+#torch.set_float32_matmul_precision('medium')
+
 # load arguments from the json file
-args = build_args("src/models/PenaltyStrategies/hparams.json", stage="train")
+args = build_args("src/models/QS/hparams.json", stage="train")
 
 # Generate model name and create file if not exists
-model_name = get_model_name(args, "PenaltyStrategies")
+model_name = get_model_name(args, "QS")
 database = args.database
 experiment_name = args.experiment_name
-model_dir = pathlib.Path(f"models/PenaltyStrategies/{database}/{experiment_name}") / model_name
+model_dir = pathlib.Path(f"models/QS/{database}/{experiment_name}") / model_name
 
 hparams_path = model_dir / "hparams.json"
 
@@ -89,48 +93,33 @@ else:
 
     # train model saving the checkpoints
     checkpoint_save_all = pl.callbacks.ModelCheckpoint(
-        dirpath=f"models/PenaltyStrategies/{database}/{experiment_name}/{model_name}",
+        dirpath=f"models/QS/{database}/{experiment_name}/{model_name}",
         save_top_k=-1,
         every_n_epochs=args.patience // 2,
         monitor="val_mAP",
         filename="{epoch}-{val_mAP:.8f}",
     )
     checkpoint_save_best = pl.callbacks.ModelCheckpoint(
-        dirpath=f"models/PenaltyStrategies/{database}/{experiment_name}/{model_name}",
+        dirpath=f"models/QS/{database}/{experiment_name}/{model_name}",
         save_top_k=1,
         monitor="val_mAP",
         filename="best-{epoch}",
         mode="max",
     )
 
-    if torch.cuda.device_count() != 0:
-        trainer = pl.Trainer(
-            max_epochs=args.epochs,
-            accelerator="gpu",
-            devices=[args.seed % torch.cuda.device_count()],
-            val_check_interval=1.0,
-            callbacks=[
-                checkpoint_save_all,
-                checkpoint_save_best,
-                EarlyStopping(monitor="val_mAP", mode="max", patience=args.patience, min_delta=0.05),
-            ],
-            logger=logger,
-            num_sanity_val_steps=0
-        )
-    else:
-        trainer = pl.Trainer(
-            max_epochs=args.epochs,
-            accelerator="cpu",
-            val_check_interval=1.0,
-            callbacks=[
-                checkpoint_save_all,
-                checkpoint_save_best,
-                EarlyStopping(monitor="val_mAP", mode="max", patience=args.patience, min_delta=0.05),
-            ],
-            logger=logger,
-            num_sanity_val_steps=0
-        )
-        
+    trainer = pl.Trainer(
+        max_epochs=args.epochs,
+        accelerator="cpu",
+        #devices=[args.seed % torch.cuda.device_count()],
+        val_check_interval=1.0,
+        callbacks=[
+            checkpoint_save_all,
+            checkpoint_save_best,
+            EarlyStopping(monitor="val_mAP", mode="max", patience=args.patience, min_delta=0.05),
+        ],
+        logger=logger,
+        num_sanity_val_steps=0
+    )
 
     open(status_file_training,"w").close()
     
@@ -140,7 +129,7 @@ else:
 
         with (hparams_path).open("w") as f:
             hparams = vars(args)
-            hparams["model"] = "PenaltyStrategies"
+            hparams["model"] = "QS"
             hparams["commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
             f.write(json.dumps(hparams, indent=True))
 
