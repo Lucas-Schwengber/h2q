@@ -97,7 +97,7 @@ for datafold in database_datafolds:
             database_hashes = datafold_hashes
             database_labels = datafold_labels
             database_features = datafold_features
-            
+    
     else:
         print(f"Missing predictions for {path}.")
         sys.exit()
@@ -121,8 +121,9 @@ for datafold in datafolds:
             query_features = np.load(features_path)
 
             k_values = [1000, 5000]
+            h_values = [0,1,2]
 
-            mAPs = mAP_at_many(query_features, database_features, query_labels, database_labels, [], k_values)
+            mAPs = mAP_at_many(query_features, database_features, query_labels, database_labels, h_values, k_values)
 
             if args.make_plots:
                 hash_powers = 2**np.arange(0, query_hashes.shape[1])
@@ -142,6 +143,9 @@ for datafold in datafolds:
 
             for k in k_values:
                 out_dict[f"mAP_at_k={k}"] = mAPs[f"k={k}"]
+
+            for h in h_values:
+                out_dict[f"mAP_at_h={h}"] = mAPs[f"h={h}"]
 
             json.dump(out_dict, open(out_path, "w"), indent=4)
         else:
