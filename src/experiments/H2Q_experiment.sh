@@ -1,5 +1,5 @@
 
-selected_model="PenaltyStrategies"
+selected_model="QS"
 selected_experiment="rotation_experiment"
 
 DBS=(
