@@ -15,10 +15,10 @@
         "stages": ["train"],
         "in_filename": true
     },
-    "-svd": {
-        "fullname": "--svd",
+    "-norm": {
+        "fullname": "--normalized",
         "default": false,
-        "help": "Perform svd.",
+        "help": "Perform norm normalization.",
         "type": "bool",
         "stages": ["train"],
         "in_filename": true
