@@ -118,6 +118,46 @@ def get_model_name(args, model, stage="train"):
     return model_name
 
 
+def rename_hparam(model_group, new_name_short, old_name_short, new_name_long, old_name_long):
+    MODEL_DIR = pathlib.Path("models") / model_group
+    EVAL_DIR = pathlib.Path("eval") / model_group
+
+    for database_dir in MODEL_DIR.iterdir():
+        for model_folder in database_dir.iterdir():
+
+            if (model_folder / "hparams.json").exists():
+
+                with open(model_folder / "hparams.json", "r") as input_file:
+                    hparams = json.load(input_file)
+                
+                if old_name_long in hparams:
+                    hparams[new_name_long] = hparams.pop(old_name_long)
+
+                with open(model_folder / "hparams.json", "w") as output_file:
+                    output_file.write(json.dumps(hparams, indent=True))
+
+            new_path = pathlib.Path(str(model_folder).replace(old_name_short,new_name_short))
+            model_folder.rename(new_path)
+
+    
+    for database_dir in EVAL_DIR.iterdir():
+        for model_folder in database_dir.iterdir():
+                
+            for datafold in ["val","query"]:
+                if (model_folder / f"{datafold}-prediction_mAP.json").exists():
+                    with open(model_folder / f"{datafold}-prediction_mAP.json", "r") as input_file:
+                        hparams = json.load(input_file)
+
+                    if old_name_long in hparams['hparams']:
+                        hparams['hparams'][new_name_long] = hparams['hparams'].pop(old_name_long)
+
+                    with open(model_folder / f"{datafold}-prediction_mAP.json", "w") as output_file:
+                        output_file.write(json.dumps(hparams, indent=True))
+
+                new_path = pathlib.Path(str(model_folder).replace(old_name_short,new_name_short))
+                model_folder.rename(new_path)
+
+
 #Function to load points, hashes and labels of a given trained model
 def load_features_hashes_and_labels(model_dir, datafold = "all"):
     path = pathlib.Path(model_dir)
@@ -147,3 +187,9 @@ def load_features_hashes_and_labels(model_dir, datafold = "all"):
         return features, hashes, labels
     else:
         return features[datafold], hashes[datafold], labels[datafold]
+    
+
+def get_device_free():
+    # i = np.argmax([torch.cuda.mem_get_info(i)[0] for i in range(torch.cuda.device_count())])
+    i = np.random.choice(torch.cuda.device_count())
+    return int(i)

@@ -6,11 +6,11 @@ from torchvision import models
 
 class Model(nn.Module):
 
-    NAME = "alexnet"
+    NAME = "CNNF_vgg16"
 
     def __init__(self, number_of_bits):
         super().__init__()
-        original_model = models.alexnet(weights='IMAGENET1K_V1')
+        original_model = models.vgg16(weights='IMAGENET1K_V1')
         self.number_of_bits = number_of_bits
         self.features = original_model.features
         self.classifier = nn.Sequential()
@@ -24,6 +24,6 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = self.features(x)
-        x = x.view(x.size(0), 256 * 6 * 6)
+        x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return self.hash_layer(x)
