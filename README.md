@@ -76,24 +76,24 @@ We illustrate the full procedure to train, predict and evaluate a single hyperpa
 
 First train running:
 ```shell
-python src/models/PenaltyStrategies/train.py -exp rotation_experiment -db CIFAR_10 -loss CEL -nw 4 -lr 0.00001 -nbits 16 -bs 128 -ep 2 -pt 20 -seed 0 -penalty 0.0 -L2_penalty 0.01 -arch alexnet -wd 0.0005
+python src/models/QS/train.py -exp rotation_experiment -db CIFAR_10 -loss CEL -nw 4 -lr 0.00001 -nbits 16 -bs 128 -ep 2 -pt 20 -seed 0 -penalty 0.0 -L2_penalty 0.01 -arch CNNF_alexnet -wd 0.0005
 ```
 Then predict running:
 ```shell
-python src/models/PenaltyStrategies/predict.py -exp rotation_experiment -db CIFAR_10 -loss CEL -nw 4 -lr 0.00001 -nbits 16 -bs 128 -ep 2 -pt 20 -seed 0 -penalty 0.0 -L2_penalty 0.01 -arch alexnet -wd 0.0005
+python src/models/QS/predict.py -exp rotation_experiment -db CIFAR_10 -loss CEL -nw 4 -lr 0.00001 -nbits 16 -bs 128 -ep 2 -pt 20 -seed 0 -penalty 0.0 -L2_penalty 0.01 -arch CNNF_alexnet -wd 0.0005
 ```
 Finally evaluate by running:
 ```shell
-python src/eval/eval_map.py -p "models/PenaltyStrategies/CIFAR_10/rotation_experiment/-loss=CEL-nbits=16-trf=imagenet-arch=alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
+python src/eval/eval_map.py -p "models/QS/CIFAR_10/rotation_experiment/-loss=CEL-nbits=16-trf=imagenet-arch=CNNF_alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
 ```
 One can then train a rotation on top of the embedding learned using:
 ```shell
-python src/models/H2Q/train.py -dir "models/PenaltyStrategies/CIFAR_10/rotation_experiment/-loss=CEL-nbits=16-trf=imagenet-arch=alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
+python src/models/H2Q/train.py -dir "models/QS/CIFAR_10/rotation_experiment/-loss=CEL-nbits=16-trf=imagenet-arch=CNNF_alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
 ```
 
 And evaluate the results from the rotation:
 ```shell
-python src/eval/eval_map.py -p "models/H2Q/CIFAR_10/rotation_experiment/-r_ep=150-r_bs=128-r_lr=1.0-r_loss=bit_var_loss-loss=CEL-nbits=16-trf=imagenet-arch=alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
+python src/eval/eval_map.py -p "models/H2Q/CIFAR_10/rotation_experiment/-r_ep=150-r_bs=128-r_lr=1.0-r_loss=bit_var_loss-loss=CEL-nbits=16-trf=imagenet-arch=CNNF_alexnet-seed=0-bs=128-ep=2-pt=20-lr=1e-05-wd=0.0005-optim=adam-penalty=0.0-L2_penalty=0.01-HSWD_penalty=0.0"
 ```
 
 ## Running the experiments
@@ -116,37 +116,37 @@ In the scripts below:
 To train the embeddings corresponding to the first 3 experiments run:
 
 ```shell
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw alexnet
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw CNNF_alexnet
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw CNNF_alexnet
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw CNNF_alexnet
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw CNNF_alexnet
 
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw vgg16
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw CNNF_vgg16
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw CNNF_vgg16
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw CNNF_vgg16
+bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw CNNF_vgg16
 
 ```
 
 After training you can evaluate the results using the <code>eval_map.sh</code> script as follows:
 ```shell
-bash src/eval/eval_map.sh PenaltyStrategies CIFAR_10 rotation_experiment $nw
-bash src/eval/eval_map.sh PenaltyStrategies NUS_WIDE rotation_experiment $nw
-bash src/eval/eval_map.sh PenaltyStrategies ImageNet rotation_experiment $nw
-bash src/eval/eval_map.sh PenaltyStrategies MS_COCO rotation_experiment $nw
+bash src/eval/eval_map.sh QS CIFAR_10 rotation_experiment $nw
+bash src/eval/eval_map.sh QS NUS_WIDE rotation_experiment $nw
+bash src/eval/eval_map.sh QS ImageNet rotation_experiment $nw
+bash src/eval/eval_map.sh QS MS_COCO rotation_experiment $nw
 ```
 
 The ADSH benchmark can be trained using
 ```shell
-bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj alexnet
-bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj alexnet
-bash src/experiments/ADSH_experiment.sh ImageNet $nj alexnet
-bash src/experiments/ADSH_experiment.sh MS_COCO $nj alexnet
+bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj CNNF_alexnet
+bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj CNNF_alexnet
+bash src/experiments/ADSH_experiment.sh ImageNet $nj CNNF_alexnet
+bash src/experiments/ADSH_experiment.sh MS_COCO $nj CNNF_alexnet
 
-bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj vgg16
-bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj vgg16
-bash src/experiments/ADSH_experiment.sh ImageNet $nj vgg16
-bash src/experiments/ADSH_experiment.sh MS_COCO $nj vgg16
+bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj CNNF_vgg16
+bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj CNNF_vgg16
+bash src/experiments/ADSH_experiment.sh ImageNet $nj CNNF_vgg16
+bash src/experiments/ADSH_experiment.sh MS_COCO $nj CNNF_vgg16
 ```
 and evaluated using
 ```shell
