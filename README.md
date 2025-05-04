@@ -23,6 +23,7 @@ source H2Q_env/bin/activate
 
 To start, create the following directories:
 ```shell
+mkdir data
 mkdir experiments
 mkdir models
 mkdir eval
