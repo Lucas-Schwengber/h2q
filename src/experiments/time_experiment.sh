@@ -1,13 +1,14 @@
 #! /bin/bash
-#SBATCH --mail-user=lucas.schwengber@berkeley.edu
-#SBATCH --mail-type=ALL
 
 # Train DPSH 4 times logging the time
 # Then train the rotation
 
-cd ~/h2q/h2q
+# cd into the repo directory 
+# cd ~/h2q
 
+# Make sure your venv is setup
 source H2Q_env/bin/activate
+ 
 
 ep=100
 nw=4
