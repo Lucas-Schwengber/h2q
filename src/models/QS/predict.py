@@ -100,11 +100,18 @@ else:
         f.write(json.dumps(hparams, indent=True))
 
     # initialize trainer for prediction
-    trainer = pl.Trainer(
-        accelerator="gpu",
-        logger=False,
-        devices=[args.seed % torch.cuda.device_count()]
-    )
+    if torch.cuda.device_count() > 0:
+        trainer = pl.Trainer(
+        	accelerator="gpu",
+        	logger=False,
+        	devices=[args.seed % torch.cuda.device_count()]
+    		)
+    else:
+        trainer = pl.Trainer(
+        	accelerator="cpu",
+        	logger=False
+    		)
+
 
     # predict
     for datafold, dataloader in zip(args.datafolds, dataloaders):
