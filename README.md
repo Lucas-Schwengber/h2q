@@ -116,15 +116,15 @@ In the scripts below:
 To train the embeddings corresponding to the first 3 experiments run:
 
 ```shell
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw CNNF_alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw CNNF_alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw CNNF_alexnet
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw CNNF_alexnet
+bash src/experiments/run_QS.sh CIFAR_10 $nj $nj*$nw CNNF_alexnet
+bash src/experiments/run_QS.sh NUS_WIDE $nj $nj*$nw CNNF_alexnet
+bash src/experiments/run_QS.sh ImageNet $nj $nj*$nw CNNF_alexnet
+bash src/experiments/run_QS.sh MS_COCO $nj $nj*$nw CNNF_alexnet
 
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh CIFAR_10 $nj $nj*$nw CNNF_vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh NUS_WIDE $nj $nj*$nw CNNF_vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh ImageNet $nj $nj*$nw CNNF_vgg16
-bash src/experiments/Baseline_penalty_HSWD_experiments.sh MS_COCO $nj $nj*$nw CNNF_vgg16
+bash src/experiments/run_QS.sh CIFAR_10 $nj $nj*$nw CNNF_vgg16
+bash src/experiments/run_QS.sh NUS_WIDE $nj $nj*$nw CNNF_vgg16
+bash src/experiments/run_QS.sh ImageNet $nj $nj*$nw CNNF_vgg16
+bash src/experiments/run_QS.sh MS_COCO $nj $nj*$nw CNNF_vgg16
 
 ```
 
@@ -138,15 +138,15 @@ bash src/eval/eval_map.sh QS MS_COCO rotation_experiment $nw
 
 The ADSH benchmark can be trained using
 ```shell
-bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj CNNF_alexnet
-bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj CNNF_alexnet
-bash src/experiments/ADSH_experiment.sh ImageNet $nj CNNF_alexnet
-bash src/experiments/ADSH_experiment.sh MS_COCO $nj CNNF_alexnet
+bash src/experiments/run_ADSH.sh CIFAR_10 $nj CNNF_alexnet
+bash src/experiments/run_ADSH.sh NUS_WIDE $nj CNNF_alexnet
+bash src/experiments/run_ADSH.sh ImageNet $nj CNNF_alexnet
+bash src/experiments/run_ADSH.sh MS_COCO $nj CNNF_alexnet
 
-bash src/experiments/ADSH_experiment.sh CIFAR_10 $nj CNNF_vgg16
-bash src/experiments/ADSH_experiment.sh NUS_WIDE $nj CNNF_vgg16
-bash src/experiments/ADSH_experiment.sh ImageNet $nj CNNF_vgg16
-bash src/experiments/ADSH_experiment.sh MS_COCO $nj CNNF_vgg16
+bash src/experiments/run_ADSH.sh CIFAR_10 $nj CNNF_vgg16
+bash src/experiments/run_ADSH.sh NUS_WIDE $nj CNNF_vgg16
+bash src/experiments/run_ADSH.sh ImageNet $nj CNNF_vgg16
+bash src/experiments/run_ADSH.sh MS_COCO $nj CNNF_vgg16
 ```
 and evaluated using
 ```shell
@@ -159,7 +159,7 @@ for all databases.
 
 To train the H²Q run (make sure to have a <code>experiments/machines</code> file with a list of machines to paralelize in CPU, if you don't have multiple machines you can adapt the script to run in a single machine):
 ```shell
-bash experiments/H2Q_experiment.sh
+bash experiments/run_H2Q.sh
 ```
 and to evaluate the results run
 ```shell
@@ -172,7 +172,7 @@ for all databases.
 
 And to run all experiments using ITQ run
 ```shell
-bash experiments/ITQ_experiment.sh $nw
+bash experiments/run_ITQ.sh $nw
 ```
 and to evaluate the results run
 ```shell
@@ -185,7 +185,7 @@ for all databases.
 
 Finally, there is also an experiment verifying the times for training and prediction. You can run that experiment running
 ```shell
-python src/H2Q/time_experiment.py
+bash src/experiments/time_experiment.sh
 ```
 
 ## How to reproduce images and tables
